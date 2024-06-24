@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    container_name: flix-it_db
+    container_name: cinemix_db
     image: postgres
     restart: always
     ports:
@@ -12,9 +12,9 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: password
     volumes:
-      - db_data_flix-it:/var/lib/postgresql/data
+      - db_data_cinemix:/var/lib/postgresql/data
   pgadmin:
-    container_name: flix-it_pgadmin
+    container_name: cinemix_pgadmin
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -25,4 +25,4 @@ services:
     depends_on:
       - db
 volumes:
-  db_data_flix-it:
+  db_data_cinemix:

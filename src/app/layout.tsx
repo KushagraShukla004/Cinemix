@@ -7,7 +7,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Cinemix',
-  description: 'A modern movie ticket booking app.',
+  description:
+    'A modern movie ticket booking app. Developed by Kushagra Shukla',
 }
 
 export default function RootLayout({

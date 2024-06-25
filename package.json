@@ -16,6 +16,7 @@
     "cloc": "npx cloc --exclude-dir=node_modules,dist,build,pnpm-lock.yaml,package.json,@generated,generated,.next ."
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.1.6",
     "@prisma/client": "5.15.1",
     "next": "14.2.4",
     "react": "^18",

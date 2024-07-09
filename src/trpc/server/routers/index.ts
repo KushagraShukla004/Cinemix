@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from '@/trpc/server'
 
 export const appRouter = createTRPCRouter({
   hello: publicProcedure.query(({ ctx }) => {
-    return { title: 'News', content: 'Lorem ipsum' }
+    return { name: 'Kushagra', age: 23 }
   }),
 })
 

@@ -1,7 +1,8 @@
 // The clerkMiddleware helper enables authentication and is where you'll configure your protected routes.
 
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-//because we are going to make our own auth system so the api/trpc must accessible to both logged-in and logged-out users.Hence, (api|trpc)(.*)
+
+// Because we are going to make our own auth system, the api/trpc must be accessible to both logged-in and logged-out users. Hence, (api|trpc)(.*)
 const isProtectedRoute = createRouteMatcher(['/', '/(api|trpc)(.*)'])
 
 export default clerkMiddleware((auth, req) => {
@@ -11,6 +12,6 @@ export default clerkMiddleware((auth, req) => {
 })
 
 export const config = {
-  //protects all routes including api/trpc
+  // Protects all routes including api/trpc
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 }

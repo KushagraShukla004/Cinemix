@@ -1,5 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { initTRPC } from '@trpc/server'
+import { prisma } from '@/db/prisma'
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = auth()

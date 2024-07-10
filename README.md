@@ -4,7 +4,7 @@ A movie ticked booking system using all the latest full-stack development framew
 
 # Frameworks
 
-[-] NextJs
-[-] Prisma
-[-] TailwindCSS
-[-] tRPC
+- NextJs
+- Prisma
+- TailwindCSS
+- tRPC

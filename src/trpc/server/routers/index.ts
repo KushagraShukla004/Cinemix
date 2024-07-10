@@ -1,7 +1,11 @@
-import { createTRPCRouter, protectedProcedure } from '@/trpc/server'
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from '@/trpc/server'
 
 export const appRouter = createTRPCRouter({
-  hello: protectedProcedure('admin' || 'manager').query(({ ctx }) => {
+  hello: publicProcedure.query(({ ctx }) => {
     return { name: 'Kushagra', age: 23 }
   }),
 })

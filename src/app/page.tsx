@@ -5,9 +5,9 @@ import { UserButton } from '@clerk/nextjs'
 export default async function Home() {
   const movies = await trpcServer.movies.movies.query()
   return (
-    <main>
+    <main className="bg-slate-500 p-6">
       Hello! <UserButton />
-      <div>
+      <div className="bg-primary-600 text-slate-100">
         {movies.map((movie) => (
           <div key={movie.id}>
             <div>{movie.id}</div>

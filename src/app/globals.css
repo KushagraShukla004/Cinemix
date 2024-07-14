@@ -36,18 +36,19 @@
 
     --radius: 0.5rem;
 
+    /* This brand-hue makes it so that the slate have a tint of our brand color in it*/
     /* Slate */
-    --slate-50: 210 40% 98%;
-    --slate-100: 210 40% 96%;
-    --slate-200: 214 31% 91%;
-    --slate-300: 212 26% 83%;
-    --slate-400: 215 20% 65%;
-    --slate-500: 215 16% 46%;
-    --slate-600: 215 19% 34%;
-    --slate-700: 215 25% 26%;
-    --slate-800: 217 32% 17%;
-    --slate-900: 222 47% 11%;
-    --slate-950: 228 84% 4%;
+    --slate-50: var(--brand-hue) 5%98%;
+    --slate-100: var(--brand-hue) 5% 96%;
+    --slate-200: var(--brand-hue) 5% 91%;
+    --slate-300: var(--brand-hue) 5% 83%;
+    --slate-400: var(--brand-hue) 5% 65%;
+    --slate-500: var(--brand-hue) 5% 46%;
+    --slate-600: var(--brand-hue) 5% 34%;
+    --slate-700: var(--brand-hue) 5% 26%;
+    --slate-800: var(--brand-hue) 5% 17%;
+    --slate-900: var(--brand-hue) 5% 11%;
+    --slate-950: var(--brand-hue) 5% 4%;
 
     /* Yellow */
     --yellow-50: 52 40% 98%;

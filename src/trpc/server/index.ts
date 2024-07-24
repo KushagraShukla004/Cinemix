@@ -22,7 +22,7 @@ export const publicProcedure = t.procedure
 
 export const protectedProcedure = (...roles: Role[]) =>
   publicProcedure.use(async ({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.userId) {
+    if (!ctx.session.userId) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
         message: 'You are not authorized.',
@@ -32,6 +32,6 @@ export const protectedProcedure = (...roles: Role[]) =>
     await authorizeUser(ctx.session.userId, roles)
 
     return next({
-      ctx,
+      ctx: { ...ctx, userId: ctx.session.userId },
     })
   })

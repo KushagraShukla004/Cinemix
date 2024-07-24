@@ -5,7 +5,7 @@ import { Button } from '../atoms/button'
 import { Menu } from 'lucide-react'
 import { BaseComponent } from '@/util/types'
 
-export function Pre_Sidebar({ children }: BaseComponent) {
+export function SimpleSidebar({ children }: BaseComponent) {
   return (
     <div className="sm:hidden">
       <Sheet>

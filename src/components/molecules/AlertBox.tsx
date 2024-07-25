@@ -10,7 +10,7 @@ export const AlertBox = ({ children, className }: IAlertBoxProps) => {
   return (
     <div
       className={cn(
-        'flex items-center justify-center py-12 bg-gray-100',
+        'flex items-center rounded-xl justify-center py-12 bg-gray-100',
         className,
       )}
     >

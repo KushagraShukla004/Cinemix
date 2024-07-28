@@ -1,21 +1,34 @@
+'use client'
+import { Map } from '../organisms/Map'
+
+import { Label } from '../atoms/label'
+import { Input } from '../atoms/input'
+import { Button } from '../atoms/button'
+
+import { useFormContext, useWatch, useFieldArray } from 'react-hook-form'
+
+import { Panel } from '../organisms/Map/Panel'
+import { Marker } from '../organisms/Map/MapMarker'
+import { CenterOfMap, DefaultZoomControls } from '../organisms/Map/ZoomControls'
+import { useMap } from 'react-map-gl'
+
+import { HtmlSelect } from '../atoms/select'
+
 import {
   FormProviderCreateCinema,
   FormTypeCreateCinema,
 } from '@/forms/createCinema'
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
-import { HtmlSelect } from '../atoms/select'
-import { Label } from '../atoms/label'
-import { TextArea } from '../atoms/textArea'
-import { Input } from '../atoms/input'
-import { revalidatePath } from '@/util/actions/revalidatePath'
-import { Button } from '../atoms/button'
+import { BrandIcon } from '../atoms/BrandIcon'
 import { useToast } from '../molecules/Toaster/use-toast'
-import { useRouter } from 'next/navigation'
+import { TextArea } from '../atoms/textArea'
 import { trpcClient } from '@/trpc/clients/client'
 import { SimpleAccordion } from '../molecules/SimpleAccordian'
-import { Plus } from 'lucide-react'
-import { CurvedScreen, Square } from '../organisms/ScreenUtils'
 import { ProjectionType, SoundSystemType } from '@prisma/client'
+import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { revalidatePath } from '@/util/actions/revalidatePath'
+import { cn } from '@/util/styles'
+import { CurvedScreen, Square } from '../organisms/ScreenUtils'
 export interface ICreateCinemaProps {}
 
 export const CreateCinema = ({}: ICreateCinemaProps) => {
@@ -38,7 +51,7 @@ export const CreateCinema = ({}: ICreateCinemaProps) => {
   const { toast } = useToast()
   const { replace } = useRouter()
   return (
-    <div>
+    <div className="grid gap-3 md:grid-cols-2">
       <form
         onSubmit={handleSubmit(
           async ({
@@ -83,6 +96,30 @@ export const CreateCinema = ({}: ICreateCinemaProps) => {
           Create cinema
         </Button>
       </form>
+      {/* <Map
+        initialViewState={{
+          longitude: 80.2,
+          latitude: 12.9,
+          zoom: 8,
+        }}
+      >
+        <MapMarker />
+
+        <Panel position="left-top">
+          
+          <DefaultZoomControls>
+            <CenterOfMap
+              onClick={(latLng) => {
+                const lat = parseFloat(latLng.lat.toFixed(6))
+                const lng = parseFloat(latLng.lng.toFixed(6))
+
+                setValue('address.lat', lat, { shouldValidate: true })
+                setValue('address.lng', lng, { shouldValidate: true })
+              }}
+            />
+          </DefaultZoomControls>
+        </Panel>
+      </Map> */}
     </div>
   )
 }
@@ -101,7 +138,7 @@ const AddScreens = () => {
   const { screens } = useWatch<FormTypeCreateCinema>()
 
   return (
-    <div>
+    <div className="mb-4">
       {fields.map((screen, screenIndex) => (
         <SimpleAccordion title={screenIndex + 1 || '[Empty]'} key={screen.id}>
           <div className="flex justify-end my-2">
@@ -215,6 +252,27 @@ const AddScreens = () => {
     </div>
   )
 }
+
+// const MapMarker = () => {
+//   const { address } = useWatch<FormTypeCreateCinema>()
+//   const { setValue } = useFormContext<FormTypeCreateCinema>()
+
+//   return (
+//     <Marker
+//       pitchAlignment="auto"
+//       longitude={address?.lng || 0}
+//       latitude={address?.lat || 0}
+//       draggable
+//       onDragEnd={({ lngLat }) => {
+//         const { lat, lng } = lngLat
+//         setValue('address.lat', lat || 0)
+//         setValue('address.lng', lng || 0)
+//       }}
+//     >
+//       <BrandIcon />
+//     </Marker>
+//   )
+// }
 
 export const Grid = ({ rows, columns }: { rows: number; columns: number }) => {
   const renderRows = () => {

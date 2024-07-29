@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '..'
 import { schemaCreateCinema } from '@/forms/createCinema'
+import { findManyCinemaArgsSchema } from './dtos/cinemas.input'
 
 export const cinemasRoutes = createTRPCRouter({
   cinemas: publicProcedure.query(({ ctx }) => {
@@ -46,4 +47,30 @@ export const cinemasRoutes = createTRPCRouter({
         },
       })
     }),
+  myCinemas: protectedProcedure()
+    .input(findManyCinemaArgsSchema.omit({ addressWhere: true }))
+    .query(({ ctx, input }) => {
+      return ctx.db.cinema.findMany({
+        ...input,
+        where: {
+          ...input.where,
+          Managers: { some: { id: ctx.userId } },
+        },
+        include: {
+          Screens: { include: { Showtimes: { include: { Movie: true } } } },
+        },
+      })
+    }),
+  myScreens: protectedProcedure().query(({ ctx }) => {
+    return ctx.db.screen.findMany({
+      where: {
+        Cinema: {
+          Managers: { some: { id: ctx.userId } },
+        },
+      },
+      include: {
+        Cinema: true,
+      },
+    })
+  }),
 })

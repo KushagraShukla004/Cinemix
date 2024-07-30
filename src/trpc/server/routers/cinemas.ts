@@ -1,16 +1,59 @@
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '..'
-import { schemaCreateCinema } from '@/forms/createCinema'
 import { findManyCinemaArgsSchema } from './dtos/cinemas.input'
 
+import { schemaCreateCinema } from '@/forms/createCinema'
+import { locationFilter } from './dtos/common'
+
 export const cinemasRoutes = createTRPCRouter({
-  cinemas: publicProcedure.query(({ ctx }) => {
-    return ctx.db.cinema.findMany({
-      include: {
-        Screens: { include: { Showtimes: { include: { Movie: true } } } },
-      },
-    })
-  }),
+  searchCinemas: publicProcedure
+    .input(findManyCinemaArgsSchema)
+    .input(z.object({ addressWhere: locationFilter }))
+    .query(async ({ input, ctx }) => {
+      const { cursor, distinct, orderBy, skip, take, where, addressWhere } =
+        input
+
+      const { ne_lat, ne_lng, sw_lat, sw_lng } = addressWhere
+      return ctx.db.cinema.findMany({
+        cursor,
+        distinct,
+        orderBy,
+        skip,
+        take,
+        where: {
+          ...where,
+          Address: {
+            lat: { lte: ne_lat, gte: sw_lat },
+            lng: { lte: ne_lng, gte: sw_lng },
+          },
+        },
+        include: {
+          Address: true,
+        },
+      })
+    }),
+  cinema: publicProcedure
+    .input(z.object({ cinemaId: z.number().nullable() }))
+    .query(({ ctx, input: { cinemaId } }) => {
+      if (!cinemaId) {
+        return null
+      }
+      return ctx.db.cinema.findUnique({
+        where: { id: cinemaId },
+        include: { Address: true },
+      })
+    }),
+  cinemas: protectedProcedure()
+    .input(findManyCinemaArgsSchema.omit({ addressWhere: true }))
+    .query(({ ctx, input }) => {
+      return ctx.db.cinema.findMany({
+        ...input,
+        include: {
+          Screens: { include: { Showtimes: { include: { Movie: true } } } },
+        },
+      })
+    }),
+
   createCinema: protectedProcedure('admin')
     .input(schemaCreateCinema)
     .mutation(({ ctx, input }) => {
@@ -61,6 +104,7 @@ export const cinemasRoutes = createTRPCRouter({
         },
       })
     }),
+
   myScreens: protectedProcedure().query(({ ctx }) => {
     return ctx.db.screen.findMany({
       where: {

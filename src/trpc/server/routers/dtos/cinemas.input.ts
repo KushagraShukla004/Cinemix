@@ -1,12 +1,17 @@
-import { z } from 'zod'
-import { SortOrder, intFilter, stringFilter } from './common'
+import { string, z } from 'zod'
+import { SortOrder, dateTimeFilter, intFilter, stringFilter } from './common'
+import { create } from 'domain'
 
 const cinemaOrderByWithRelationInputSchema = z.object({
   id: SortOrder,
+  createdAt: SortOrder,
+  name: SortOrder,
 })
 
 const cinemaWhereInputSchemaPrimitive = z.object({
   id: intFilter,
+  name: stringFilter,
+  createdAt: dateTimeFilter,
 })
 
 const addressWhere = z.object({

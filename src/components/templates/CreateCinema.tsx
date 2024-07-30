@@ -25,22 +25,22 @@ import { trpcClient } from '@/trpc/clients/client'
 import { SimpleAccordion } from '../molecules/SimpleAccordian'
 import { ProjectionType, SoundSystemType } from '@prisma/client'
 import { Plus } from 'lucide-react'
+import { SearchPlace } from '../organisms/SearchPlace'
 import { useRouter } from 'next/navigation'
 import { revalidatePath } from '@/util/actions/revalidatePath'
 import { cn } from '@/util/styles'
-import { CurvedScreen, Square } from '../organisms/ScreenUtils'
+import { Square } from '../organisms/ScreenUtils'
 export interface ICreateCinemaProps {}
 
-export const CreateCinema = ({}: ICreateCinemaProps) => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    control,
-    formState: { errors },
-  } = useFormContext<FormTypeCreateCinema>()
+export const CreateCinema = () => (
+  <FormProviderCreateCinema>
+    <CreateCinemaContent />
+  </FormProviderCreateCinema>
+)
 
+export const CreateCinemaContent = ({}: ICreateCinemaProps) => {
+  const { register, handleSubmit, setValue, reset, control } =
+    useFormContext<FormTypeCreateCinema>()
   const {
     isLoading,
     data,
@@ -71,32 +71,32 @@ export const CreateCinema = ({}: ICreateCinemaProps) => {
               screens,
             })
             reset()
-            toast({ title: `${cinemaName} created successfully.` })
+            toast({ title: 'Cinema created successfully.' })
             revalidatePath('admins/cinemas')
             replace('/admin/cinemas')
           },
         )}
       >
-        <Label title="Cinema" error={errors.cinemaName?.message}>
+        <Label title="Cinema">
           <Input placeholder="Cinema name" {...register('cinemaName')} />
         </Label>
-        <Label title="Manager ID" error={errors.managerId?.message}>
+        <Label title="Manager ID">
           <Input placeholder="Manager ID" {...register('managerId')} />
         </Label>
 
-        <Label title="Address" error={errors.address?.address?.message}>
+        <Label title="Address">
           <TextArea placeholder="Address" {...register('address.address')} />
         </Label>
-        {/* <Label title="Location">
-            <ShowLocation />
-        </Label> */}
-
+        <Label title="Location">
+          <ShowLocation />
+        </Label>
         <AddScreens />
+
         <Button type="submit" loading={isLoading}>
           Create cinema
         </Button>
       </form>
-      {/* <Map
+      <Map
         initialViewState={{
           longitude: 80.2,
           latitude: 12.9,
@@ -106,7 +106,12 @@ export const CreateCinema = ({}: ICreateCinemaProps) => {
         <MapMarker />
 
         <Panel position="left-top">
-          
+          <SearchBox
+            onChange={({ lat, lng }) => {
+              setValue('address.lat', lat, { shouldValidate: true })
+              setValue('address.lng', lng, { shouldValidate: true })
+            }}
+          />
           <DefaultZoomControls>
             <CenterOfMap
               onClick={(latLng) => {
@@ -119,7 +124,7 @@ export const CreateCinema = ({}: ICreateCinemaProps) => {
             />
           </DefaultZoomControls>
         </Panel>
-      </Map> */}
+      </Map>
     </div>
   )
 }
@@ -138,10 +143,10 @@ const AddScreens = () => {
   const { screens } = useWatch<FormTypeCreateCinema>()
 
   return (
-    <div className="mb-4">
-      {fields.map((screen, screenIndex) => (
-        <SimpleAccordion title={screenIndex + 1 || '[Empty]'} key={screen.id}>
-          <div className="flex justify-end my-2">
+    <div>
+      {fields.map((item, screenIndex) => (
+        <SimpleAccordion title={screenIndex + 1 || '[Empty]'} key={item.id}>
+          <div className={`flex justify-end my-2`}>
             <Button
               variant="link"
               size="sm"
@@ -241,8 +246,8 @@ const AddScreens = () => {
               columns: 0,
               rows: 0,
               price: 0,
-              projectionType: 'DOLBY_CINEMA',
-              soundSystemType: 'DOLBY_ATMOS',
+              projectionType: ProjectionType.STANDARD,
+              soundSystemType: SoundSystemType.DOLBY_ATMOS,
             })
           }
         >
@@ -253,26 +258,94 @@ const AddScreens = () => {
   )
 }
 
-// const MapMarker = () => {
-//   const { address } = useWatch<FormTypeCreateCinema>()
-//   const { setValue } = useFormContext<FormTypeCreateCinema>()
+const ShowLocation = () => {
+  const { address } = useWatch<FormTypeCreateCinema>()
 
-//   return (
-//     <Marker
-//       pitchAlignment="auto"
-//       longitude={address?.lng || 0}
-//       latitude={address?.lat || 0}
-//       draggable
-//       onDragEnd={({ lngLat }) => {
-//         const { lat, lng } = lngLat
-//         setValue('address.lat', lat || 0)
-//         setValue('address.lng', lng || 0)
-//       }}
-//     >
-//       <BrandIcon />
-//     </Marker>
-//   )
-// }
+  return (
+    <div>
+      <span className="px-2 py-1 text-xs rounded bg-gray-50">
+        {address?.lat?.toFixed(4)}
+      </span>{' '}
+      <span className="px-2 py-1 text-xs rounded bg-gray-50">
+        {address?.lng?.toFixed(4)}
+      </span>
+    </div>
+  )
+}
+
+export const SearchBox = ({
+  onChange,
+}: {
+  onChange: ({ lat, lng }: { lat: number; lng: number }) => void
+}) => {
+  const { current: map } = useMap()
+  return (
+    <SearchPlace
+      onLocationChange={(locationInfo) => {
+        const lat = locationInfo.latitude
+        const lng = locationInfo.longitude
+        onChange({ lat, lng })
+
+        map?.flyTo({
+          center: { lat, lng },
+          essential: true,
+        })
+      }}
+    />
+  )
+}
+
+const MapMarker = () => {
+  const { address } = useWatch<FormTypeCreateCinema>()
+  const { setValue } = useFormContext<FormTypeCreateCinema>()
+  return (
+    <Marker
+      pitchAlignment="auto"
+      longitude={address?.lng || 0}
+      latitude={address?.lat || 0}
+      draggable
+      onDragEnd={({ lngLat }) => {
+        const { lat, lng } = lngLat
+        setValue('address.lat', lat || 0)
+        setValue('address.lng', lng || 0)
+      }}
+    >
+      <BrandIcon />
+    </Marker>
+  )
+}
+
+export const StaightMovieScreen = () => {
+  return (
+    <div className="mb-4">
+      <div className="h-0.5 bg-gray rounded"></div>
+      <div className="flex ">
+        <div className="flex-1 h-4 bg-gradient-to-tr from-transparent via-transparent to-gray" />
+        <div className="flex-1 h-4 bg-gradient-to-tl from-transparent via-transparent to-gray" />
+      </div>
+      <div className="text-xs text-center text-gray-500">Eyes this way</div>
+    </div>
+  )
+}
+export const CurvedScreen = ({ width = 300, height = 10 }) => {
+  const curveOffset = height * 0.9 // Controls the curvature of the screen
+
+  return (
+    <svg
+      width={'100%'}
+      className="mt-6"
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+    >
+      <path
+        d={`M 0,${height} L 0,0 Q ${
+          width / 2
+        },${curveOffset} ${width},0 L ${width},${height} Z`}
+        fill="black"
+      />
+    </svg>
+  )
+}
 
 export const Grid = ({ rows, columns }: { rows: number; columns: number }) => {
   const renderRows = () => {
@@ -291,18 +364,17 @@ export const Grid = ({ rows, columns }: { rows: number; columns: number }) => {
     }
 
     return (
-      <div className="flex flex-col items-center gap-2  overflow-x-auto">
+      <div className="flex flex-col items-center gap-2 px-2 overflow-x-auto">
         {rowElements}
       </div>
     )
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {renderRows()}
-      <div className="flex justify-center">
-        <CurvedScreen />
-      </div>
+
+      <CurvedScreen />
     </div>
   )
 }

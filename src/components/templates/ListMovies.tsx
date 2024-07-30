@@ -7,7 +7,7 @@ export interface IListMoviesProps {}
 export const ListMovies = async ({}: IListMoviesProps) => {
   const movies = await trpcServer.movies.movies.query()
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-4 gap-2">
       {movies.map((movie) => (
         <MovieInfo key={movie.id} movie={movie} />
       ))}
@@ -25,9 +25,9 @@ export const MovieInfo = ({
       <Image
         src={movie.posterUrl || '/default.png'}
         alt=""
-        className="aspect-square object-cover rounded shadow-lg"
-        width={300}
-        height={300}
+        className="aspect-auto object-cover rounded shadow-lg"
+        width={200}
+        height={200}
         priority
       />
       <div className="text-lg font-semibold">{movie.title}</div>

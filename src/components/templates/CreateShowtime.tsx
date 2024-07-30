@@ -9,7 +9,7 @@ import { useToast } from '../molecules/Toaster/use-toast'
 import { Button } from '../atoms/button'
 import { Label } from '../atoms/label'
 import { Input } from '../atoms/input'
-import { Plus } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { revalidatePath } from '@/util/actions/revalidatePath'
 
@@ -89,12 +89,22 @@ export const AddShows = () => {
       <Label title="Shows">
         <div className="grid grid-cols-3 gap-2">
           {fields.map((item, index) => (
-            <Label key={item.id}>
-              <Input
-                {...register(`showtimes.${index}.time`)}
-                type="datetime-local"
-              />
-            </Label>
+            <div key={item.id}>
+              <Label key={item.id}>
+                <Input
+                  {...register(`showtimes.${index}.time`)}
+                  type="datetime-local"
+                />
+              </Label>
+              <Button
+                className="flex items-center justify-center w-full py-2 mt-2 text-xs border border-dashed"
+                size="sm"
+                variant="link"
+                onClick={() => remove(index)}
+              >
+                <Minus className="w-4 h-4 p-1" /> Remove Show
+              </Button>
+            </div>
           ))}
         </div>
       </Label>

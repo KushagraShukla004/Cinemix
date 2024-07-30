@@ -1,18 +1,17 @@
 'use client'
-
-import { trpcClient } from '@/trpc/clients/client'
-import { RouterOutputs } from '@/trpc/clients/types'
-import { format } from 'date-fns'
-import { Title2 } from '../atoms/typography'
 import Image from 'next/image'
+import { Title2 } from '../atoms/typography'
+import { format } from 'date-fns'
 import { AlertBox } from '../molecules/AlertBox'
+import { RouterOutputs } from '@/trpc/clients/types'
+import { trpcClient } from '@/trpc/clients/client'
 import { formatDate } from '@/util/functions'
 
-export interface MyListMoviesProps {
+export interface IListMoviesProps {
   cinemas: RouterOutputs['cinemas']['cinemas']
 }
 
-export const ListCinemas = ({ cinemas }: MyListMoviesProps) => {
+export const ListCinemas = ({ cinemas }: IListMoviesProps) => {
   return (
     <div>
       <div>
@@ -47,7 +46,7 @@ export const CinemaInfo = ({
             <div className="font-light text-xl ">Screen {screen.number}</div>
 
             {screen.Showtimes.length === 0 ? (
-              <AlertBox className="bg-gray-200">
+              <AlertBox className="mt-2">
                 <div>No shows found.</div>
               </AlertBox>
             ) : null}
@@ -66,11 +65,11 @@ export const ShowScreenShowtimes = ({ screenId }: { screenId: number }) => {
 
   return data?.map((date) => (
     <div key={date.date}>
-      <div className="my-8">
+      <div className="my-7">
         <div className="mb-2 text-lg font-semibold">
           {formatDate(date.date)}
         </div>
-        <div className="grid grid-cols-3 gap-2 ">
+        <div className="grid grid-cols-3 gap-3 w-fit ">
           {[...date.showtimes]
             .sort(
               (a, b) =>
@@ -78,7 +77,10 @@ export const ShowScreenShowtimes = ({ screenId }: { screenId: number }) => {
                 new Date(b.startTime).getTime(),
             )
             .map((showtime) => (
-              <div className="p-3 border w-fit rounded-xl" key={showtime.id}>
+              <div
+                className="p-3 border rounded-2xl bg-gray-300/50"
+                key={showtime.id}
+              >
                 <div className="font-semibold text-2xl">
                   {format(showtime.startTime.toString(), 'p')}
                 </div>
@@ -86,7 +88,7 @@ export const ShowScreenShowtimes = ({ screenId }: { screenId: number }) => {
                   {format(showtime.startTime.toString(), 'PP')}
                 </div>
                 <Image
-                  src={showtime.Movie.posterUrl || '/default.png'}
+                  src={showtime.Movie.posterUrl || '/film.png'}
                   alt=""
                   className="rounded-lg"
                   width={200}

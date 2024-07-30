@@ -1,4 +1,4 @@
-import { RectangleHorizontal } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 
 export interface IBrandIconProps {
   className?: string
@@ -12,14 +12,16 @@ export const BrandIcon = ({
   className,
   animate = false,
   shadow = false,
-  width = 24,
-  height = 24,
+  width = 26,
+  height = 26,
 }: IBrandIconProps) => {
   return (
-    <div style={{ perspective: '20px' }}>
-      <RectangleHorizontal
+    <div style={{ perspective: '30px' }}>
+      <MapPin
         className={`${className}`}
-        style={{ transform: 'rotateX(22deg' }}
+        width={width}
+        height={height}
+        color="red"
       />
     </div>
   )

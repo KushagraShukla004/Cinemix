@@ -1,5 +1,5 @@
 'use client'
-import { LucideIcon, Minus, Plus, Warehouse } from 'lucide-react'
+import { LucideIcon, Minus, Plus, Warehouse, MapPin } from 'lucide-react'
 import { ReactNode } from 'react'
 
 import { useMap } from 'react-map-gl'
@@ -41,7 +41,7 @@ const ZoomOut = () => {
 
 export const CenterOfMap = ({
   onClick,
-  Icon = Warehouse,
+  Icon = MapPin,
 }: {
   onClick: (latLng: { lng: number; lat: number }) => void
   Icon?: LucideIcon

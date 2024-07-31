@@ -10,7 +10,6 @@ Cinemix is a modern movie ticket booking app designed to provide users with a se
 - [Scripts](#scripts)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
 
 ## Features
 

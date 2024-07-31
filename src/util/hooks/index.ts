@@ -150,9 +150,9 @@ export const useHandleSearch = () => {
     router.replace(`${pathname}?${params}`)
   }
 
-  const deleteParam = (key: string) => {
-    params.delete(key)
-    console.log('delete:params', params.toString())
+  const deleteParams = (keys: string[]) => {
+    keys.forEach((key) => params.delete(key))
+    router.replace(`${pathname}?${params}`)
   }
 
   const deleteAll = () => {
@@ -161,7 +161,7 @@ export const useHandleSearch = () => {
     console.log('deleteAll:params', params.toString())
   }
 
-  return { params, addParam, deleteParam, deleteAll }
+  return { params, addParam, deleteParams, deleteAll }
 }
 
 /**

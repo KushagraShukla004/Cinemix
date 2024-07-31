@@ -3,6 +3,7 @@ import { SortOrder, intFilter } from './common'
 
 const movieOrderByWithRelationInputSchema = z.object({
   id: SortOrder,
+  name: SortOrder,
 })
 
 const movieWhereInputSchemaPrimitive = z.object({

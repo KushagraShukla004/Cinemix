@@ -2,7 +2,6 @@ import * as admin from 'firebase-admin'
 
 const firebasePrivateKey = process.env.firebasePrivateKey?.replace(/\\n/g, '\n')
 
-console.log('admin.apps.length', admin.apps.length)
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({

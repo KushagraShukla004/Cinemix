@@ -53,7 +53,7 @@ export function SearchPlace({
                   setValue('')
                   map?.flyTo({
                     center: { lat: latitude, lng: longitude },
-                    zoom: 10,
+                    zoom: 15,
                     essential: true,
                   })
                 }}

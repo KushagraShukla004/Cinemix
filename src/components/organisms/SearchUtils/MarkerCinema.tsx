@@ -32,8 +32,8 @@ export const MarkerCinema = ({
 }
 
 export const MarkerText = ({ children }: { children: ReactNode }) => (
-  <div className="absolute max-w-xs -translate-x-1/2 left-1/2">
-    <div className="mt-1 leading-4 text-center min-w-max px-0.5 rounded backdrop-blur-sm bg-white/50">
+  <div className="absolute max-w-xs">
+    <div className="mt-1 text-center min-w-max px-0.5 rounded backdrop-blur-sm bg-white/50">
       {children}
     </div>
   </div>

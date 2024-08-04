@@ -21,7 +21,8 @@ export const BrandIcon = ({
         className={`${className}`}
         width={width}
         height={height}
-        color="red"
+        strokeWidth={1.5}
+        fill="green"
       />
     </div>
   )

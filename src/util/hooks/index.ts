@@ -180,7 +180,7 @@ export function useGetCinema({ cinemaId }: { cinemaId: string | null }) {
     }
   }, [refetch, cinemaId])
 
-  console.log('data in useGetCinema', data)
+  // console.log('data in useGetCinema', data)
 
   return { cinema: data }
 }

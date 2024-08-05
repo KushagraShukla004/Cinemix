@@ -12,7 +12,6 @@ export const ShowtimeSelectCard = ({
   showtime,
   selected = false,
 }: IShowtimeSelectCardProps) => {
-  // console.log('Start time ', showtime.startTime)
   return (
     <div
       className={`flex border p-1 rounded flex-col items-start ${

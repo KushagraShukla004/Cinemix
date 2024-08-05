@@ -35,9 +35,6 @@ export const SelectShowtimes = ({
                 <Box />
                 <div>No shows.</div>
               </div>
-              {/* <div className="max-w-xs text-sm text-center">
-                {random(noShowsMessages)}
-              </div> */}
             </div>
           </>
         ) : null}
@@ -49,7 +46,6 @@ export const SelectShowtimes = ({
             <div className="grid grid-cols-3 gap-2 ">
               {[...date.showtimes]
                 .sort((a, b) => {
-                  // console.log('a, b', a.startTime, b.startTime)
                   return (
                     new Date(a.startTime).getTime() -
                     new Date(b.startTime).getTime()

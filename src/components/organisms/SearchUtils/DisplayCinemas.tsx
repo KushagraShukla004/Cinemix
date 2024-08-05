@@ -27,9 +27,9 @@ export const DisplayCinemas = () => {
     addressWhere: locationFilter,
   })
 
-  console.log('Bounds: ', bounds)
-  console.log('LocationFiler: ', locationFilter)
-  console.log('data', data)
+  // console.log('Bounds: ', bounds)
+  // console.log('LocationFiler: ', locationFilter)
+  // console.log('data', data)
 
   useEffect(() => {
     refetch()

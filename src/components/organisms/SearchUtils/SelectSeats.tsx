@@ -38,7 +38,6 @@ export const SelectSeats = ({
   showtimeId: number
   screenId: number
 }) => {
-  console.log('showtimeId', showtimeId)
   const { data, isLoading } = trpcClient.showtimes.seats.useQuery({
     showtimeId,
   })

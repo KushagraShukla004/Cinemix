@@ -26,15 +26,6 @@ export const trpcServer = createTRPCProxyClient<AppRouter>({
         observable((observer) => {
           createContext()
             .then((ctx) => {
-              //   console.log(
-              //     `path, type , input,appRouter._def.procedures
-
-              //       `,
-              //     path,
-              //     type,
-              //     input,
-              //     appRouter._def.procedures,
-              //   )
               return callProcedure({
                 ctx,
                 path,

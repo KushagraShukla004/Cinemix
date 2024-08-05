@@ -120,7 +120,7 @@ export const Tickets = ({}: ITicketsProps) => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-5">
       {data?.map((ticket) => <TicketMovie key={ticket.id} ticket={ticket} />)}
     </div>
   )

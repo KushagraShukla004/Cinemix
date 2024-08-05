@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '..'
 import { findManyCinemaArgsSchema } from './dtos/cinemas.input'
-
 import { schemaCreateCinema } from '@/forms/createCinema'
 import { locationFilter } from './dtos/common'
 
@@ -117,4 +116,38 @@ export const cinemasRoutes = createTRPCRouter({
       },
     })
   }),
+
+  searchCinemasByMovie: publicProcedure
+    .input(z.object({ movieId: z.number() }))
+    .query(async ({ input, ctx }) => {
+      const { movieId } = input
+      return ctx.db.cinema.findMany({
+        where: {
+          Screens: {
+            some: {
+              Showtimes: {
+                some: {
+                  movieId: movieId,
+                  startTime: {
+                    gt: new Date(), // Only show future showtimes
+                  },
+                },
+              },
+            },
+          },
+        },
+        include: {
+          Address: true,
+          Screens: {
+            include: {
+              Showtimes: {
+                include: {
+                  Movie: true,
+                },
+              },
+            },
+          },
+        },
+      })
+    }),
 })

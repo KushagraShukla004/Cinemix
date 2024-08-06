@@ -96,9 +96,9 @@ To set up the project locally, follow these steps:
 ```php
     ├── public
     ├── src
+    │   ├── app
     │   ├── components
-    │   ├── pages
-    │   ├── styles
+    │   ├── trpc
     │   ├── utils
     │   └── ...
     ├── .eslintrc.json

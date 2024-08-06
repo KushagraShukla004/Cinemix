@@ -94,17 +94,25 @@ To set up the project locally, follow these steps:
 ## Project Structure
 
 ```php
+    ├── prisma
     ├── public
     ├── src
     │   ├── app
     │   ├── components
+    │   ├── db
+    │   ├── forms
     │   ├── trpc
-    │   ├── utils
-    │   └── ...
+    │   └── utils
     ├── .eslintrc.json
+    ├── .gitignore
     ├── .prettierrc
+    ├── LICENSE
+    ├── README.md
+    ├── components.json
+    ├── docker-compose.yml
     ├── next.config.js
     ├── package.json
+    ├── pnpm-lock.yaml
     ├── postcss.config.js
     ├── tailwind.config.js
     └── tsconfig.json

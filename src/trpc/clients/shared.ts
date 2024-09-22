@@ -5,7 +5,7 @@ function getBaseUrl() {
   if (process.env.RAILWAY_URL) return `https://${process.env.RAILWAY_URL}`
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
-console.log('getBaseUrl(): ', getBaseUrl())
+
 export function getUrl() {
   return getBaseUrl() + '/api/trpc'
 }
